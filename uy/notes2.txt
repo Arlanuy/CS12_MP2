@@ -1,0 +1,69 @@
+package uy;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class DrawPileField extends JPanel implements MouseMotionListener {
+    private static final int WIDTH  = 300;
+    private static final int HEIGHT = 120;
+    public final static int CARDWIDTH = 100;
+    private static final Dimension SIZE = new Dimension(WIDTH, HEIGHT);
+    private static final int LOCX = 150;
+    private static final int LOCY = 150;
+    private static final int GAP = 50;
+    private static CardField main_draw_pile_field;
+    private static CardField sub_draw_pile_field;
+    private JLayeredPane layered_pane;
+    private BoxLayout layout;
+
+    public DrawPileField() {
+        setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+        setSize(SIZE);
+        setLocation(LOCX, LOCY);
+        setBackground(Color.GREEN);
+       layered_pane = new JLayeredPane();
+       layered_pane.setPreferredSize(new Dimension(300, 310));
+       layered_pane.setBorder(BorderFactory.createTitledBorder(
+                                   "Move the Mouse to Move Duke"));
+       layered_pane.addMouseMotionListener(this);
+    }
+
+    public void setMainDrawPileField(CardField main_draw_pile_field) {
+        this.main_draw_pile_field = main_draw_pile_field;
+        layered_pane.add(main_draw_pile_field, new Integer(LOCX));
+        layered_pane.add(Box.createRigidArea(new Dimension(GAP, HEIGHT)));
+        System.out.println("MainDrawPiles");
+        main_draw_pile_field.setLocation(LOCX, LOCY);
+        System.out.println("x: " + LOCX  + " y: " + LOCY);
+    }
+
+    public void setSubDrawPileField(CardField sub_draw_pile_field) {
+        this.sub_draw_pile_field = sub_draw_pile_field;
+        //add(sub_draw_pile_field);
+        layered_pane.add(sub_draw_pile_field, new Integer(LOCX + GAP + CARDWIDTH));
+        layered_pane.add(Box.createRigidArea(new Dimension(GAP, HEIGHT)));
+        add(layered_pane);
+        System.out.println("SubDrawPile");
+        sub_draw_pile_field.setLocation(LOCX + CARDWIDTH + GAP, LOCY);
+        System.out.println("x: " + (LOCX + CARDWIDTH + GAP) + " y: " + LOCY);
+    }
+
+    public void draw(Graphics g) {
+        main_draw_pile_field.drawCard(g);
+        sub_draw_pile_field.drawCard(g);
+    }
+
+    public Dimension getPreferredSize() {
+        return SIZE;
+    }
+    @Override
+   public void mouseMoved(MouseEvent e) {
+       main_draw_pile_field.setLocation(e.getX(), e.getY());
+       layered_pane.moveToFront(main_draw_pile_field);
+   }
+
+    @Override
+   public void mouseDragged(MouseEvent e) {} //do nothing
+
+
+}

@@ -1,0 +1,156 @@
+package uy;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+
+public class SolitaireGUI extends JFrame implements ActionListener{
+    private static final int CANVAS_WIDTH  = 2100;
+    private static final int CANVAS_HEIGHT = 1000;
+   // Declare an instance of the drawing canvas,
+   // which is an inner class called DrawCanvas extending javax.swing.JPanel.
+   private DrawCanvas canvas;
+   private CardField card;
+   private DrawPileField draw_pile_field;
+   private SuitPilesAndPilesField suitpiles_and_piles_field;
+   private SuitPilesField suit_piles_field;
+   private PilesField piles_field;
+
+  public SolitaireGUI() {
+  //Create and set up the content pane.
+    JComponent cp = new DrawCanvas();
+     //cp.setOpaque(true); //content panes must be opaque
+    setContentPane(cp);
+    setJMenuBar(new MenuPanels(this));
+    //setSize(500, 700);
+    setName("SolitaireGUI");
+    setTitle("SolitaireGUI");
+    Font myFont1 = new Font(Font.MONOSPACED, Font.PLAIN, 12);
+    Font myFont2 = new Font(Font.SERIF, Font.BOLD | Font.ITALIC, 16);
+    JLabel header = new JLabel("Welcome to my " + getName());
+    header.setFont(myFont1);
+    header.setBackground(Color.CYAN);
+    header.setForeground(Color.RED);
+    /**
+    JLabel pic = new JLabel(new ImageIcon("java.jpeg"));
+    cp.add(pic, BorderLayout.CENTER); */
+    //cp.add(header, BorderLayout.NORTH);
+    /**
+    Toolkit tk = Toolkit.getDefaultToolkit();
+    Image puzzle = tk.getImage("PUZZLE_DAY_2.png");
+    setIconImage(puzzle);*/
+    canvas = new DrawCanvas();    // Construct the drawing canvas
+    canvas.setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
+    cp.add(canvas);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    pack(  );
+    setVisible(true);
+  }
+
+  /**
+    * Define inner class DrawCanvas, which is a JPanel used for custom drawing.
+    */
+   private class DrawCanvas extends JPanel {
+       private static final int HORGAP = 200;
+       private static final int VERGAP = 100;
+       private static final int GRID_ROWS = 1;
+       private static final int GRID_COLS = 2;
+       //private GroupLayout layout = new GroupLayout(this);
+
+      // Override paintComponent to perform your own painting
+      public DrawCanvas() {
+         //setLayout(new GridLayout(GRID_ROWS, GRID_COLS, HORGAP, VERGAP));
+         setLayout(new FlowLayout());
+         //layout.setAutoCreateGaps(true);
+         //layout.setAutoCreateContainerGaps(true);
+         setBackground(Color.GREEN);
+         setBounds(0, 0, WIDTH, HEIGHT);
+         draw_pile_field = new DrawPileField();
+         int card_locationX = 150;
+         int card_locationY = 130;
+         String img_filename = "0-2.png";
+         String img_filename2 = "0-3.png";
+         String img_filename3 = "0-4.png";
+         String img_filename4 = "0-5.png";
+         String img_filename5 = "0-6.png";
+         String img_filename6 = "0-7.png";
+         String img_filename7 = "0-8.png";
+         String img_filename8 = "0-9.png";
+         String img_filename9 = "1-2.png";
+         String img_filename10 = "0-A.png";
+         String img_filename11 = "0-J.png";
+         String img_filename12 = "0-Q.png";
+          String img_filename13 = "0-K.png";
+         CardField card = new CardField(img_filename);
+         CardField card2 = new CardField(img_filename2);
+         CardField card3 = new CardField(img_filename3);
+         CardField card4 = new CardField(img_filename4);
+         CardField card5 = new CardField(img_filename5);
+         CardField card6 = new CardField(img_filename6);
+         CardField card7 = new CardField(img_filename7);
+         CardField card8 = new CardField(img_filename8);
+         CardField card9 = new CardField(img_filename9);
+         CardField card10 = new CardField(img_filename10);
+         CardField card11 = new CardField(img_filename11);
+         CardField card12 = new CardField(img_filename12);
+          CardField card13 = new CardField(img_filename13);
+         draw_pile_field.setMaximumSize(draw_pile_field.getPreferredSize());
+         draw_pile_field.setMinimumSize(draw_pile_field.getPreferredSize());
+         add(draw_pile_field);
+         draw_pile_field.setMainDrawPileField(card);
+         draw_pile_field.setSubDrawPileField(card2);
+         suitpiles_and_piles_field = new SuitPilesAndPilesField();
+         suit_piles_field = new SuitPilesField();
+         piles_field = new PilesField();
+         CardField suit_piles_cards[] = new CardField[4];
+         suit_piles_cards[0] = card3;
+         suit_piles_cards[1] = card4;
+         suit_piles_cards[2] = card5;
+         suit_piles_cards[3] = card6;
+         suit_piles_field.setMaximumSize(suit_piles_field.getPreferredSize());
+         suit_piles_field.setMinimumSize(suit_piles_field.getPreferredSize());
+         suit_piles_field.setSuitPilesField(suit_piles_cards);
+         CardField piles_cards[] = new CardField[7];
+         piles_cards[0] = card7;
+         piles_cards[1] = card8;
+         piles_cards[2] = card9;
+         piles_cards[3] = card10;
+         piles_cards[4] = card11;
+         piles_cards[5] = card12;
+         piles_cards[6] = card13;
+         piles_field.setMaximumSize(piles_field.getPreferredSize());
+         piles_field.setMinimumSize(piles_field.getPreferredSize());
+         piles_field.setPilesField(piles_cards);
+         suitpiles_and_piles_field.setSuitPilesField(suit_piles_field);
+         suitpiles_and_piles_field.setPilesField(piles_field);
+         add(suitpiles_and_piles_field);
+         //repaint();
+      }
+
+      @Override
+      public void paintComponent(Graphics g) {
+         super.paintComponent(g);     // paint parent's background
+         setBackground(Color.GREEN);  // set background color for this JPanel
+         draw_pile_field.draw(g);
+         suit_piles_field.draw(g);
+         piles_field.draw(g);
+      }
+   }
+
+
+  public static void main(String[] args) {
+    SwingUtilities.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        new SolitaireGUI();
+      }
+    });
+
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent e) {
+
+  }
+}

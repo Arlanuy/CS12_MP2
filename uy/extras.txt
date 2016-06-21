@@ -1,0 +1,25 @@
+// Your custom painting codes. For example,
+// Drawing primitive shapes
+g.drawLine(30, 40, 100, 200);
+g.drawOval(150, 180, 10, 10);
+g.drawRect(200, 210, 20, 30);
+g.setColor(Color.RED);       // change the drawing color
+g.fillOval(300, 310, 30, 50);
+g.fillRect(400, 350, 60, 50);
+g.setColor(Color.YELLOW);    // set the drawing color
+// Printing texts
+g.setColor(Color.WHITE);
+g.setFont(new Font("Monospaced", Font.PLAIN, 12));
+g.drawString("Testing custom drawing ...", 10, 20);
+g.setFont(new Font("Arial", Font.BOLD, 15));
+// Get font metrics for the current font
+  FontMetrics fm = g.getFontMetrics();
+  // Centralize the string
+  String msg = "Hello, world!";
+  int msgWidth = fm.stringWidth(msg);
+  int msgAscent = fm.getAscent();
+  // Get the position of the leftmost character in the baseline
+  // getWidth() and getHeight() returns the width and height of this component
+  int msgX = getWidth() / 2 - msgWidth / 2;
+  int msgY = getHeight() / 12;
+  g.drawString(msg, msgX, msgY);

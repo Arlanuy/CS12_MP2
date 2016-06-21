@@ -1,0 +1,58 @@
+package uy;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class DrawPileHolderPanel extends JPanel {
+    private static final int WIDTH  = 550;
+    private static final int HEIGHT = 160;
+    public final static int CARDWIDTH = 100;
+    private static final Dimension SIZE = new Dimension(WIDTH, HEIGHT);
+    private static final int LOCX = 150;
+    private static final int LOCY = 150;
+    private static final int GAP = 50;
+    private static MainDrawPilePanel main_draw_pile_panel;
+    private static SubDrawPilePanel sub_draw_pile_panel;
+    private BoxLayout layout;
+
+    public DrawPileHolderPanel() {
+        layout = new BoxLayout(this, BoxLayout.LINE_AXIS);
+        setOpaque(false);
+        //setOpaque(true);
+        setLayout(layout);
+        setSize(SIZE);
+        setLocation(LOCX, LOCY);
+        //setBackground(Color.YELLOW);
+        MouseAdaptForGameField drawpile_holder_panel_listener = new MouseAdaptForGameField(this);
+    }
+
+    /**
+    * Sets the main draw pile's main draw pile panel by which is the object associated with the GUI
+    * @param main_draw_pile_panel  the GUI holder of the main_draw_pile object
+    */
+    public void setMainDrawPilePanel (MainDrawPilePanel main_draw_pile_panel) {
+        this.main_draw_pile_panel = main_draw_pile_panel;
+        add(main_draw_pile_panel);
+        System.out.println("DHP x: " + (LOCX) + " y: " + LOCY);
+    }
+
+    /**
+    * Sets the sub draw pile's sub draw pile panel by which is the object associated with the GUI
+    * @param sub_draw_pile_panel  the GUI holder of the sub_draw_pile object
+    */
+
+    public void setSubDrawPilePanel(SubDrawPilePanel sub_draw_pile_panel) {
+        add(Box.createRigidArea(new Dimension(GAP, HEIGHT)));
+        this.sub_draw_pile_panel = sub_draw_pile_panel;
+        add(sub_draw_pile_panel);
+    }
+
+    public void draw(Graphics g) {
+        main_draw_pile_panel.draw(g);
+        sub_draw_pile_panel.draw(g);
+    }
+
+    public Dimension getPreferredSize() {
+        return SIZE;
+    }
+}
